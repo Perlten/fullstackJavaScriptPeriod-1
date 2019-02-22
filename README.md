@@ -52,7 +52,8 @@ function testHoist(){
 ### Immediately-Invoked Function Expressions (IIFE)
 ### JavaScripts Prototype
 ### User-defined Callback Functions (writing your own functions that take a callback)
-    ```javascript
+```javascript
+
 function filterArray(arr, callback){
     const res = []
     for (e of arr){
@@ -67,8 +68,8 @@ const array = [1, 3, 5 ,6 ,8 ,9]
 
 const filArray = filterArray(array, (e) => e > 5)
 console.log(filArray);
+```
 
-    ```
 ### Explain the methods map, filter and reduce
 ```javascript 
 const array = [1 ,2 ,5 ,7 ,8, 11, 23]
