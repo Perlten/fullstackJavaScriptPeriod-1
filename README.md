@@ -18,7 +18,7 @@ javascript is non blocking and single threaded. However we still need to be able
 When the response comes back it ends up in the eventqueue, and when the stack is empty, then it calls the callback method assign to the request.
 
 ### Explain (some) of the purposes with the tools Babel and WebPack, using  examples from the exercises
-
+Babel can transpile javascript code to at older version, and webpack can compress all our javascript files into a single file
 ### Explain the purpose of “use strict” and Linters, exemplified with ESLint 
 
 
@@ -49,7 +49,13 @@ function testHoist(){
 ### this in JavaScript and how it differs from what we know from Java/.net.
 
 ### Function Closures and the JavaScript Module Pattern
+
 ### Immediately-Invoked Function Expressions (IIFE)
+```javascript
+(function(){
+    console.log("IIFE")
+})()
+```
 ### JavaScripts Prototype
 ```javascript
 const array = [1, 2, 3, 4, 5]
@@ -248,7 +254,61 @@ Flow 1 on 12Feb in webpackExercises
 
 ### Provide a number of examples to demonstrate the benefits of using TypeScript, including, types, interfaces, classes and generics
 
+```typescript 
+interface Person { name: string };
+interface Address { street: string };
+
+const person: Person = { name: "Nikolai Perlt" };
+const address: Address = { street: "Bellmansgade 56" };
+
+
+class GenericLogger<T, U>{
+    logger = (t: T, u: U) => {
+        console.log(`${t} lives on ${u}`);
+    }
+}
+
+let classLogger = new GenericLogger<Person, Address>()
+
+classLogger.logger(person, address)
+
+//Class
+class TestClass{
+    constructor(public name: string, private age: number){}
+
+    printName(){
+        console.log(this.name);
+    }
+
+    printAge(){
+        console.log(this.age);
+    }
+}
+
+const testClass = new TestClass("Nikolai", 23)
+```
+
 ### Explain the ECMAScript Proposal Process for how new features are added to the language (the TC39 Process)
+
+This is a process split into 4 stages from idea to finished and implemented feature
+
+### Stages:
+#### Stage 0 (Strawman):
+* No real spec
+* Public for feedback
+* Allows for input
+#### Stage 1 (Proposal):
+* Make the case for the addition
+* Describe the shape of a solution
+* Identify potential challenges
+#### Stage 2 (Draft):
+* Precisely describe the syntax
+* Describe semantics using formal spec language
+#### Stage 3 (Candidate):
+* Indicate that further refinement will require feedback from implementations and users
+#### Stage 4 (Finished):
+* Indicate that the addition is ready for inclusion in the formal ECMAScript standard
+
 
 ### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
 
