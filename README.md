@@ -51,6 +51,12 @@ function testHoist(){
 ### Function Closures and the JavaScript Module Pattern
 ### Immediately-Invoked Function Expressions (IIFE)
 ### JavaScripts Prototype
+```javascript
+const array = [1, 2, 3, 4, 5]
+Array.prototype.printForFun = () => console.log("Hej med jer");
+
+array.printForFun()
+```
 ### User-defined Callback Functions (writing your own functions that take a callback)
 ```javascript
 
@@ -88,15 +94,157 @@ console.log(reduceArray);
 
 ```
 ### Provide examples of user-defined reusable modules implemented in Node.js
+Used in exercises on 12Feb es2015Exercises
+```javascript
+const f = require("./fFunc")
 
+//fFunc
+
+function f(x, y, ...rest) {
+    console.log(`X: ${x}`)
+    console.log(`Y: ${y}`)
+    rest.forEach((data, index) => console.log(`index: ${index} data: ${data}`))
+}
+
+module.exports = f
+```
 
 ### Provide examples and explain the es2015 features: let, arrow functions, this, rest parameters, de-structuring assignments, maps/sets etc.
 
+```javascript
+
+//Throw error because let does not hoist
+function testLet() {
+    console.log(x);
+    if (false) {
+        let x = "hej"
+    }
+}
+
+
+// Arrow functions makes this behave more like java
+setTimeout(() => {
+    console.log("Arrow functions is nice");
+}, 1000);
+
+//This is points to the global object unless it is attached to a object
+const obj = {
+    string: "hej object",
+    printString: function () { console.log(this.string) },
+    printString2: function () {
+        setTimeout(function () {
+            console.log(this.string);
+        }, 1000)
+    }
+}
+
+obj.printString()
+obj.printString2()
+
+
+// rest parameter
+
+const restParam = "/test/:num"
+const num = req.params.num
+
+// de-structuring assignments
+const person = {
+    name: "perlt",
+    age: 23
+}
+
+const { name, age } = person
+console.log(name, age);
+
+//Maps 
+let map = new Map();
+
+map.set('foo', 123);
+map.get('foo')
+123
+
+map.has('foo')
+true
+map.delete('foo')
+true
+map.has('foo')
+false
+
+//Sets 
+
+let set = new Set();
+set.add('red')
+
+set.has('red')
+true
+set.delete('red')
+true
+set.has('red')
+false
+```
+
+
 ### Explain and demonstrate how es2015 supports modules (import and export) similar to what is offered by NodeJS.
+
+```javascript 
+export default function test(){
+    console.log("test")
+    return "test"
+}
+
+export function test2(){
+    console.log("test2");
+    return "test2"
+}
+
+
+// other module
+
+import test, {test2} from './modulename'
+```
 
 ### Provide an example of ES6 inheritance and reflect over the differences between Inheritance in Java and in ES6.
 
+```javascript
+// differences between java and javascript is for one that i cant make abstract methods
+class Human {
+    constructor(name ,age){
+        this.name = name;
+        this.age = age;
+    }
+
+    printName(){
+        console.log(this.name);
+    }
+    
+    printAge(){
+        console.log(this.age);
+    }
+
+    printStory(){
+
+    }
+}
+
+class basketballPlayer extends Human{
+    constructor(name, age, height) {
+        super(name, age)
+        this.height = height
+    }
+
+    printStory(){
+        console.log(`I am a ${this.height} tall basketball player`);
+    }
+}
+
+const bBaller = new basketballPlayer("Perlt", 23, "190")
+bBaller.printStory()
+bBaller.printAge()
+```
+
 ### Provide examples with es-next, running in a browser, using Babel and Webpack
+
+Flow 1 on 12Feb in webpackExercises
 
 ### Provide a number of examples to demonstrate the benefits of using TypeScript, including, types, interfaces, classes and generics
 
@@ -104,8 +252,100 @@ console.log(reduceArray);
 
 ### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
 
+```javascript 
+//Pyramid of doom
+setTimeout(() => {
+    console.log("hej");
+    setTimeout(() =>{
+        console.log("med");
+        setTimeout(() =>{
+            console.log("dig");
+            setTimeout(() =>{
+                console.log("hvad");
+                setTimeout(() =>{
+                    console.log("laver");
+                    setTimeout(() =>{
+                        console.log("du");
+                    }, 1000)
+                }, 1000)
+            }, 1000)
+        }, 1000)
+    }, 1000)
+},1000)
+
+//with promises
+
+function clgPromise(string) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(string)
+            resolve(string)
+        }, 1000);
+    })
+}
+
+clgPromise("hej")
+    .then(() => clgPromise("med"))
+    .then(() => clgPromise("dig"))
+    .then(() => clgPromise("hvad"))
+    .then(() => clgPromise("laver"))
+    .then(() => clgPromise("du?"))
+
+```
+
 ### Example(s) that demonstrate how to execute asynchronous (promise-based) code in serial or parallel
 
-### Example(s) that demonstrate how to implement our own promise-solutions.
+```javascript
 
+//Commen
+function facCalc(id) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log(id);
+            resolve(id)
+        }, 1000);
+    })
+}
+//serial
+facCalc(1)
+    .then(() => facCalc(2))
+    .then(() => facCalc(3))
+    .then(() => facCalc(4))
+    .then(() => facCalc(5))
+
+
+//parallel
+promiseArray = [
+    facCalc(1),
+    facCalc(2),
+    facCalc(3),
+    facCalc(4),
+    facCalc(5),
+]
+
+Promise.all(promiseArray).then((data) => console.log(data))
+```
+
+### Example(s) that demonstrate how to implement our own promise-solutions.
+    Look above
 ### Example(s) that demonstrate error handling with promises
+```javascript 
+function ownPromise(shouldError, id) {
+    return new Promise((resolve, reject) => {
+        console.log(id);
+        if (shouldError) {
+            reject("Error")
+            return
+        }
+        resolve("No error")
+    })
+}
+
+
+ownPromise(false, 1)
+    .then(() => ownPromise(false, 2))
+    .then(() => ownPromise(true, 3))
+    .then(() => ownPromise(false, 4))
+    .then(() => ownPromise(false, 5))
+    .catch(e => console.log(e))
+```

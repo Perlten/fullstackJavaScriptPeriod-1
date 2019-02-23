@@ -1,12 +1,34 @@
+// differences between java and javascript is for one that i cant make abstract methods
+class Human {
+    constructor(name ,age){
+        this.name = name;
+        this.age = age;
+    }
 
+    printName(){
+        console.log(this.name);
+    }
+    
+    printAge(){
+        console.log(this.age);
+    }
 
-const array = [1 ,2 ,5 ,7 ,8, 11, 23]
+    printStory(){
 
-const mapArray = array.map(e => e * e);
-console.log(mapArray);
+    }
+}
 
-const filterArray = array.filter(e => e > 7)
-console.log(filterArray);
+class basketballPlayer extends Human{
+    constructor(name, age, height) {
+        super(name, age)
+        this.height = height
+    }
 
-const reduceArray = array.reduce((a, e) => a += e, 0)
-console.log(reduceArray);
+    printStory(){
+        console.log(`I am a ${this.height} tall basketball player`);
+    }
+}
+
+const bBaller = new basketballPlayer("Perlt", 23, "190")
+bBaller.printStory()
+bBaller.printAge()
