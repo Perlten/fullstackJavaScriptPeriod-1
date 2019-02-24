@@ -20,8 +20,17 @@ When the response comes back it ends up in the eventqueue, and when the stack is
 ### Explain (some) of the purposes with the tools Babel and WebPack, using  examples from the exercises
 Babel can transpile javascript code to at older version, and webpack can compress all our javascript files into a single file
 ### Explain the purpose of “use strict” and Linters, exemplified with ESLint 
+You can declare a functions or a file strict. This means that there are certain restrictions on things such as var names, and use of undeclared variables.
 
-
+```javascript
+"use strict";
+//Throws error
+x = 3.14
+```
+```javascript
+//Is okay and creates a global variable x
+x = 3.14
+```
 ### Variable/function-Hoisting
 
 Here its prints undefined and not a error beacuse x is hoistet to the top of the function
@@ -47,9 +56,39 @@ function testHoist(){
 ```
 
 ### this in JavaScript and how it differs from what we know from Java/.net.
+The big difference between java and javascript when i comes to this, is that in java it consistently refers to the object it belongs to. This is not the case for javascript. Here it is much more dependent on in which context it us used in. If a functions "belongs" to a object, this referes to the object, however if the function does not "belong" to a object this refers to either window in the browser or global in node. 
 
+```javascript
+const person = {
+    name: "Perlt",
+    age: 23,
+    printPerson() {
+        console.log(this.name, this.age);
+    },
+    printPersonWithDelay(){
+        setTimeout(function(){
+            console.log(this.name, this.age);
+        },1000)
+    }
+}
+
+person.printPerson(); //Perlt 23
+person.printPersonWithDelay() // undefined undefined
+```
 ### Function Closures and the JavaScript Module Pattern
+Closures can be used to create "private" variables in javascript
 
+```javascript
+function outer() {
+   var b = 10;
+   function inner() {
+        
+         var a = 20; 
+         console.log(a+b);
+    }
+   return inner;
+}
+```
 ### Immediately-Invoked Function Expressions (IIFE)
 ```javascript
 (function(){
